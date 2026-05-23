@@ -3,6 +3,11 @@
 ## Project Overview
 This project contains mobile automation testing using Detox for a React Native application. The purpose of this exercise is to learn and implement End-to-End (E2E) testing for mobile applications.
 
+## Documentation
+
+Test Cases:  
+[https://docs.google.com/spreadsheets/d/1NjB2mR3KV9z-E7Wx7Jr_GdyOODMZkaasYYXB5AanVmc/edit?usp=sharing]
+
 ## Exercise Objective
 
 - Understand Detox framework setup
