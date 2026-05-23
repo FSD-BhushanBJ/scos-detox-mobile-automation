@@ -1,4 +1,4 @@
-# Detox Mobile Automation Project
+# Detox Mobile Automation Excerise 5
 
 ## Project Overview
 This project contains mobile automation testing using Detox for a React Native application. The purpose of this exercise is to learn and implement End-to-End (E2E) testing for mobile applications.
@@ -75,10 +75,12 @@ npm react-native run-android
 
 ### Run Detox tests
 
-```bash
+```bash for iOS
 npx detox build --configuration ios.sim.debug
 ```
-
+```bash for Android
+npx detox build --configuration ios.emu.debug
+```
 ## Test Execution Status
 
 - Detox setup completed  
