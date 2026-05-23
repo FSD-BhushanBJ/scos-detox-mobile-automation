@@ -1,0 +1,1 @@
+# scos-detox-mobile-automation
