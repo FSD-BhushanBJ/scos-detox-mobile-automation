@@ -59,19 +59,24 @@ npm install
 ### Run Metro
 
 ```bash
-npm start
+npx react-native start
 ```
 
+### Run iOs
+
+```bash
+npm react-native run-ios
+```
 ### Run Android
 
 ```bash
-npm run android
+npm react-native run-android
 ```
 
 ### Run Detox tests
 
 ```bash
-detox test
+npx detox build --configuration ios.sim.debug
 ```
 
 ## Test Execution Status
