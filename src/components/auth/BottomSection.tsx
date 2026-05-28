@@ -31,8 +31,10 @@ interface SetupCardProps {
 }
 
 interface FooterProps {
-  onLinkPress: () => void;
-  testID?: string;
+  onTermsPress: () => void;
+  onPrivacyPress: () => void;
+  termsTestID?: string;
+  privacyTestID?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -75,7 +77,12 @@ export const SetupCard: React.FC<SetupCardProps> = ({ onPress, testID }) => {
 // ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
-export const Footer: React.FC<FooterProps> = ({ onLinkPress, testID }) => {
+export const Footer: React.FC<FooterProps> = ({
+  onTermsPress,
+  onPrivacyPress,
+  termsTestID,
+  privacyTestID,
+}) => {
   const { colors } = useTheme();
 
   return (
@@ -85,14 +92,26 @@ export const Footer: React.FC<FooterProps> = ({ onLinkPress, testID }) => {
       </Text>
 
       <TouchableOpacity
-        testID={testID}
+        testID={termsTestID}
         activeOpacity={0.7}
-        onPress={onLinkPress}
+        onPress={onTermsPress}
         accessibilityRole="link"
-        accessibilityLabel={STRINGS.FOOTER_LINK}
+        accessibilityLabel={STRINGS.FOOTER_TERMS_LINK}
       >
         <Text style={[styles.footerLink, { color: colors.footerLink }]}>
-          {STRINGS.FOOTER_LINK}
+          {STRINGS.FOOTER_TERMS_LINK}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        testID={privacyTestID}
+        activeOpacity={0.7}
+        onPress={onPrivacyPress}
+        accessibilityRole="link"
+        accessibilityLabel={STRINGS.FOOTER_PRIVACY_LINK}
+      >
+        <Text style={[styles.footerLink, { color: colors.footerLink }]}>
+          {STRINGS.FOOTER_PRIVACY_LINK}
         </Text>
       </TouchableOpacity>
     </View>

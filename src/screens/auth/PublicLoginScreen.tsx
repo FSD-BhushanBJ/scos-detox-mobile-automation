@@ -6,6 +6,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
+  Alert,
   View,
   Text,
   ScrollView,
@@ -53,6 +54,18 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
   const isTablet = screenWidth >= 768;
   const isLandscape = screenWidth > screenHeight;
   const isPhoneLandscape = !isTablet && isLandscape;
+  const tabletCardStyle = [
+    styles.card,
+    isTablet && styles.tabletCard,
+    isTablet && {
+      backgroundColor: colors.surface,
+      borderColor: colors.border,
+      borderWidth: 1,
+      borderRadius: radius.xl,
+      padding: spacing.xxl,
+      marginBottom: spacing.xl,
+    },
+  ];
 
   // ── Fix: ref use karke stable callback banao taaki focus na tute ──────────
   // auth.handleInputChange har render pe naya function hota hai (hook se),
@@ -132,6 +145,30 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
     if (validateInput()) auth.handleUsePassword();
   };
 
+  const handleSetupInstitutePress = useCallback(() => {
+    Alert.alert(
+      'Setup Institute',
+      'Setup requests are not live yet. Please contact support@mentrixos.com for onboarding help.',
+      [{ text: 'OK' }],
+    );
+  }, []);
+
+  const handleFooterLinkPress = useCallback(() => {
+    Alert.alert(
+      'Terms of Service',
+      'Terms of service details are not available in-app yet. Please contact support@mentrixos.com for assistance.',
+      [{ text: 'OK' }],
+    );
+  }, []);
+
+  const handlePrivacyLinkPress = useCallback(() => {
+    Alert.alert(
+      'Privacy Policy',
+      'Privacy policy details are not available in-app yet. Please contact support@mentrixos.com for assistance.',
+      [{ text: 'OK' }],
+    );
+  }, []);
+
   // ── Scroll to top when OTP mode activates ───────────────────────────────
   useEffect(() => {
     if (auth.mode === 'otp') {
@@ -152,7 +189,7 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
     }
 
     auth.clearNextRoute();
-  }, [auth.nextRoute]);
+  }, [auth, navigation]);
 
   // ── Sub-render: Top Action Buttons ────────────────────────────────────────
   const renderTopButtons = (): React.ReactElement => (
@@ -204,7 +241,7 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
       <>
         {isPhone ? (
           <PhoneInput
-          testID="phoneInput"
+            testID="phoneInput"
             value={auth.rawInput}
             onChangeText={handlePhoneInputChange}
             placeholder={STRINGS.PLACEHOLDER_PHONE_NUMBER}
@@ -241,15 +278,15 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
         {isEmail && (
           <View style={[styles.gap, styles.twoButtons]}>
             <PrimaryButton
-            testID="sendCodeButton"
+              testID="sendCodeButton"
               label={STRINGS.BTN_SEND_CODE}
               onPress={handleSendCodeWithValidation}
               loading={auth.loading}
               flex
             />
-            <View style={{ width: 10 }} />
+            <View style={styles.buttonSpacer} />
             <PrimaryButton
-            testID="usePasswordButton"
+              testID="usePasswordButton"
               label={STRINGS.BTN_USE_PASSWORD}
               onPress={handleUsePasswordWithValidation}
               flex
@@ -319,7 +356,7 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <TouchableOpacity style={styles.gap} onPress={auth.handleBack} testID="loginButton">
-        <Text style={{ color: colors.textSecondary, textAlign: 'center' }}>
+        <Text style={[styles.centerText, { color: colors.textSecondary }]}>
           {STRINGS.BTN_BACK}
         </Text>
       </TouchableOpacity>
@@ -405,13 +442,7 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
       />
 
       <TouchableOpacity testID="passwordBackButton" style={styles.gap} onPress={auth.handleBack}>
-        <Text
-          style={{
-            color: colors.textSecondary,
-            textAlign: 'center',
-            marginTop: spacing.sm + 2,
-          }}
-        >
+        <Text style={[styles.centerText, styles.passwordBackText, { color: colors.textSecondary }]}>
           {STRINGS.BTN_BACK}
         </Text>
       </TouchableOpacity>
@@ -450,19 +481,7 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
           <View style={[styles.outerPad, isTablet && styles.outerPadTablet]}>
             {!isTablet && renderTopButtons()}
 
-            <View
-              style={[
-                styles.card,
-                isTablet && {
-                  backgroundColor: colors.surface,
-                  borderColor: colors.border,
-                  borderWidth: 1,
-                  borderRadius: radius.xl,
-                  padding: spacing.xxl,
-                  marginBottom: spacing.xl,
-                },
-              ]}
-            >
+            <View style={tabletCardStyle}>
               <BrandHeader />
               {auth.error ? (
                 <>
@@ -490,9 +509,14 @@ const PublicLoginScreen: React.FC<Props> = ({ navigation }) => {
             </View>
 
             {!isPhoneLandscape && renderTagline()}
-            <SetupCard testID="setupLink" onPress={() => {}} />
+            <SetupCard testID="setupLink" onPress={handleSetupInstitutePress} />
             <View style={styles.footerGap}>
-              <Footer testID="footerLink" onLinkPress={() => {}} />
+              <Footer
+                termsTestID="footerTermsLink"
+                privacyTestID="footerPrivacyLink"
+                onTermsPress={handleFooterLinkPress}
+                onPrivacyPress={handlePrivacyLinkPress}
+              />
             </View>
           </View>
         </ScrollView>
@@ -529,6 +553,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing.xl,
   },
   card: {},
+  tabletCard: {},
   topRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -546,8 +571,11 @@ const styles = StyleSheet.create({
   form: {},
   gap: { marginTop: spacing.sm + 6 },
   twoButtons: { flexDirection: 'row' },
+  buttonSpacer: { width: 10 },
   error: { fontSize: 13, textAlign: 'center', marginBottom: spacing.sm + 2 },
   validationError: { fontSize: 12, marginTop: spacing.xs + 2, marginLeft: 2 },
+  centerText: { textAlign: 'center' },
+  passwordBackText: { marginTop: spacing.sm + 2 },
   otpLabel: { fontSize: 14, fontWeight: '600', marginBottom: spacing.md },
   resendRow: {
     flexDirection: 'row',

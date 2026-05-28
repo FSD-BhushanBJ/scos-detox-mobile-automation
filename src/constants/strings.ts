@@ -71,7 +71,8 @@ export const STRINGS = {
 
   // ── Legal footer ──────────────────────────────────────────────────────────
   FOOTER_TEXT: 'By continuing, you agree to our',
-  FOOTER_LINK: 'Terms & Privacy Policy',
+  FOOTER_TERMS_LINK: 'Terms of Service',
+  FOOTER_PRIVACY_LINK: 'Privacy Policy',
 
   // ── Accessibility labels for header icon buttons ──────────────────────────
   BTN_REPORT: 'Report a problem',
